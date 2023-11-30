@@ -36,7 +36,6 @@ public class Parser {
 			value = readFromTokens(tokens);
 		} catch (Exception e) {
 			value.add("ERROR");
-			e.printStackTrace();
 		}
 		return value;
 	}
@@ -180,7 +179,6 @@ public class Parser {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }
