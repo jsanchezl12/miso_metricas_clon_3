@@ -10,6 +10,11 @@ import java.util.Set;
 
 public class Parser {
 
+	private static String  SYNTAX_Error_1 = "SYNTAX ERROR - Unexpected end of expression";
+	private static String  SYNTAX_Error_2 = "SYNTAX ERROR - Invalid Expression";
+	private static String  SYNTAX_Error_3 = "SYNTAX ERROR - Unexpected closing parenthesis";
+	private static String  EVALUATION_Error_1 = "SYNTAX ERROR - Unexpected token ";
+
 	public enum Operator {
 		ADD("+"),
 		SUBTRACT("-"),
@@ -50,7 +55,7 @@ public class Parser {
 
 	public List<String> readFromTokens(String[] tokens) throws SyntaxErrorException {
 		if (tokens.length == 0)
-			throw new SyntaxErrorException("SYNTAX ERROR - Unexpected end of expression");
+			throw new SyntaxErrorException(SYNTAX_Error_1);
 
 		String token = tokens[0];
 		tokens = Arrays.copyOfRange(tokens, 1, tokens.length);
@@ -68,14 +73,14 @@ public class Parser {
 				}
 			}
 			if (tokens.length == 0)
-				throw new SyntaxErrorException("SYNTAX ERROR - Unexpected end of expression");
+				throw new SyntaxErrorException(SYNTAX_Error_1);
 			else if (nestedExpression.size() < 3)
-				throw new SyntaxErrorException("SYNTAX ERROR - Invalid Expression");
+				throw new SyntaxErrorException(SYNTAX_Error_2);
 			else
 				tokens = Arrays.copyOfRange(tokens, 1, tokens.length);
 			return nestedExpression;
 		} else if (token.equals(")"))
-			throw new SyntaxErrorException("SYNTAX ERROR - Unexpected closing parenthesis");
+			throw new SyntaxErrorException(SYNTAX_Error_3);
 		else {
 			List<String> res = new ArrayList<>();
 			res.add(token);
@@ -111,7 +116,7 @@ public class Parser {
 		String operator = (String) expression.get(0);
         Operator parsedOperator = parseOperator(operator);
         if (parsedOperator == null)
-            throw new EvaluationException("SYNTAX ERROR - Unknown operator " + operator);
+            throw new EvaluationException(EVALUATION_Error_1 + operator);
 
 			float[] operands = new float[expression.size() - 1];
 		for (int i = 1; i < expression.size(); i++) {
